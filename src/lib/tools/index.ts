@@ -7,6 +7,9 @@ import { dataServicesTools } from "./data-services.js";
 import { debugTools } from "./debug.js";
 import { gitTools } from "./git.js";
 import { gctsTools } from "./gcts.js";
+import { systemTools } from "./system.js";
+import { ddicTools } from "./ddic.js";
+import { translationTools } from "./translation.js";
 import type { ToolDefinition } from "../../types/index.js";
 
 export const allTools: ToolDefinition[] = [
@@ -19,6 +22,9 @@ export const allTools: ToolDefinition[] = [
   ...debugTools,
   ...gitTools,
   ...gctsTools,
+  ...systemTools,
+  ...ddicTools,
+  ...translationTools,
 ];
 
 export {
@@ -31,4 +37,7 @@ export {
   debugTools,
   gitTools,
   gctsTools,
+  systemTools,
+  ddicTools,
+  translationTools,
 };

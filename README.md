@@ -4,10 +4,14 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that w
 
 ## Features
 
-- **32 tools** across 8 categories covering the full ABAP development lifecycle
+- **66 tools** across 13 categories covering the full ABAP development lifecycle
 - **16 object types** supported (classes, CDS views, service bindings, tables, etc.)
 - **2 transport modes**: STDIO (CLI) and Streamable HTTP (web)
 - **Automatic management** of SAP locks, sessions, and transport requests
+- **Full interactive debugging**: attach, step, inspect/modify variables, stack traces
+- **gCTS integration**: manage Git-enabled Change and Transport System repositories
+- **Translation support**: read/write texts in multiple languages, compare translations
+- **DDIC metadata**: explore data dictionary elements, CDS annotations
 
 ## Prerequisites
 
@@ -148,20 +152,74 @@ Add to `.mcp.json` at your project root:
 | `publish_service_binding` | Publish an OData service |
 | `unpublish_service_binding` | Unpublish an OData service |
 
-### Debug (3 tools)
+### Debug (10 tools)
 
 | Tool | Description |
 |------|-------------|
 | `debug_listen` | Listen for debug sessions (blocking) |
 | `set_breakpoints` | Set breakpoints in source code |
+| `debug_delete_breakpoints` | Remove a breakpoint |
+| `debug_attach` | Attach to a running debug session |
+| `debug_stack_trace` | Get the current call stack |
+| `debug_variables` | Inspect variables (names, types, values) |
+| `debug_child_variables` | Expand complex variables (structures, tables, objects) |
+| `debug_step` | Step into/over/return/continue/terminate |
+| `debug_set_variable` | Modify a variable value at runtime |
 | `get_traces` | List execution traces |
 
-### Git (2 tools)
+### Git / abapGit (2 tools)
 
 | Tool | Description |
 |------|-------------|
 | `list_git_repos` | List abapGit repositories linked to the system |
 | `git_pull` | Pull changes from an abapGit repository |
+
+### gCTS (10 tools)
+
+| Tool | Description |
+|------|-------------|
+| `gcts_list_repositories` | List all gCTS repositories |
+| `gcts_get_repository` | Get repository details by ID |
+| `gcts_create_repository` | Create a new repository (link Git URL to ABAP package) |
+| `gcts_delete_repository` | Delete a repository |
+| `gcts_clone_repository` | Clone a repository from remote |
+| `gcts_pull` | Pull latest changes |
+| `gcts_commit` | Commit local changes |
+| `gcts_list_branches` | List branches |
+| `gcts_switch_branch` | Switch to a different branch |
+| `gcts_get_history` | Get commit history |
+
+### System (7 tools)
+
+| Tool | Description |
+|------|-------------|
+| `list_dumps` | List ABAP runtime dumps (ST22) |
+| `list_feeds` | List ADT activity feeds |
+| `get_object_revisions` | Version history of an object |
+| `list_inactive_objects` | List all non-activated objects |
+| `get_abap_documentation` | F1 help for a symbol |
+| `run_class` | Execute an IF_OO_ADT_CLASSRUN class |
+| `run_sql_query` | Execute SQL queries (JOINs, aggregations, WHERE) |
+
+### DDIC Metadata (3 tools)
+
+| Tool | Description |
+|------|-------------|
+| `get_ddic_element` | Get DDIC element metadata (types, lengths, keys, labels) |
+| `get_ddic_repo_access` | Get DDIC repository access references |
+| `get_annotation_definitions` | List all available CDS annotation definitions |
+
+### Translation (7 tools)
+
+| Tool | Description |
+|------|-------------|
+| `get_object_texts_in_language` | Read object source in a specific language |
+| `get_data_element_labels` | Get data element labels (short/medium/long/heading) in a language |
+| `get_message_class_texts` | Get all messages of a message class in a language |
+| `write_message_class_texts` | Write/update translated message texts |
+| `write_data_element_labels` | Write/update translated data element labels |
+| `get_text_pool_in_language` | Get text elements (TEXT-xxx) in a language |
+| `compare_object_languages` | Compare texts between two languages (find missing translations) |
 
 ## Supported Object Types
 
@@ -184,13 +242,15 @@ Add to `.mcp.json` at your project root:
 | `DEVC/K` | Packages |
 | `MSAG/N` | Message Classes |
 
-## Typical Workflow
+## Typical Workflows
+
+### Create and activate an object
 
 ```
 create_object → write_object_source → syntax_check → activate_objects
 ```
 
-For a full OData service:
+### Full OData service
 
 ```
 1. create_transport          # Create a transport request
@@ -204,6 +264,29 @@ For a full OData service:
 9. publish_service_binding    # Publish the service
 ```
 
+### Interactive debugging
+
+```
+1. set_breakpoints           # Set breakpoints in source
+2. debug_listen              # Wait for a debug session (blocking)
+3. debug_attach              # Attach to the debuggee
+4. debug_stack_trace         # Inspect the call stack
+5. debug_variables           # Inspect variable values
+6. debug_step (stepOver)     # Step through code
+7. debug_set_variable        # Modify a variable at runtime
+8. debug_step (stepContinue) # Continue execution
+```
+
+### Translation workflow
+
+```
+1. compare_object_languages    # Compare EN vs FR to find missing translations
+2. get_message_class_texts     # Read source texts in EN
+3. (AI translates the texts)
+4. write_message_class_texts   # Write translated texts in FR
+5. activate_objects             # Activate
+```
+
 ## Architecture
 
 ```
@@ -215,15 +298,19 @@ src/
     ├── adt-client.ts          # ADT client (singleton, auto-reconnect)
     ├── config.ts              # Configuration (env vars, password prompt)
     ├── logger.ts              # Structured JSON logging (stderr)
-    ├── tools/                 # 32 tool definitions
-    │   ├── exploration.ts
-    │   ├── modification.ts
-    │   ├── quality.ts
-    │   ├── transports.ts
-    │   ├── refactoring.ts
-    │   ├── data-services.ts
-    │   ├── debug.ts
-    │   ├── git.ts
+    ├── tools/                 # 66 tool definitions
+    │   ├── exploration.ts     # Search, read, navigate
+    │   ├── modification.ts    # Create, write, delete, activate
+    │   ├── quality.ts         # Syntax check, unit tests, ATC
+    │   ├── transports.ts      # Transport management
+    │   ├── refactoring.ts     # Rename, extract, completion
+    │   ├── data-services.ts   # Table contents, service bindings
+    │   ├── debug.ts           # Full interactive debugging
+    │   ├── git.ts             # abapGit integration
+    │   ├── gcts.ts            # gCTS (Git-enabled CTS)
+    │   ├── system.ts          # Dumps, feeds, revisions, SQL
+    │   ├── ddic.ts            # DDIC metadata, CDS annotations
+    │   ├── translation.ts     # Multi-language text management
     │   └── index.ts           # Tool registry
     └── helpers/
         ├── url-builder.ts     # ADT URL construction
