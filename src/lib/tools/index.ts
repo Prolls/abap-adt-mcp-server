@@ -6,6 +6,7 @@ import { refactoringTools } from "./refactoring.js";
 import { dataServicesTools } from "./data-services.js";
 import { debugTools } from "./debug.js";
 import { gitTools } from "./git.js";
+import { gctsTools } from "./gcts.js";
 import type { ToolDefinition } from "../../types/index.js";
 
 export const allTools: ToolDefinition[] = [
@@ -17,6 +18,7 @@ export const allTools: ToolDefinition[] = [
   ...dataServicesTools,
   ...debugTools,
   ...gitTools,
+  ...gctsTools,
 ];
 
 export {
@@ -28,4 +30,5 @@ export {
   dataServicesTools,
   debugTools,
   gitTools,
+  gctsTools,
 };

@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:help.sap.com)",
+      "WebFetch(domain:launchpad.support.sap.com)",
+      "Bash(find C:\\\\Users\\\\Prolls\\\\Documents\\\\nodejs\\\\abap-adt-mcp-server:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:blogs.sap.com)",
+      "WebFetch(domain:www.sap.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:developers.sap.com)",
+      "WebFetch(domain:docs.oasis-open-projects.org)",
+      "WebFetch(domain:support.sap.com)",
+      "WebFetch(domain:community.sap.com)",
+      "WebFetch(domain:www.reddit.com)",
+      "WebFetch(domain:pages.community.sap.com)",
+      "WebFetch(domain:api.sap.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:wiki.scn.sap.com)",
+      "WebFetch(domain:psapps-pswiki.cfapps.sap.hana.ondemand.com)",
+      "WebFetch(domain:learn.sap.com)",
+      "WebFetch(domain:www.sapdev.blog)",
+      "Bash(cd /c/Users/Prolls/Documents/nodejs/abap-adt-mcp-server && npm run build 2>&1)",
+      "Bash(cd /c/Users/Prolls/Documents/nodejs/abap-adt-mcp-server && npx tsc 2>&1)",
+      "Bash(ls:*)",
+      "Bash(cd /c/Users/Prolls/Documents/nodejs/abap-adt-mcp-server && npm install 2>&1 && npx tsc 2>&1)",
+      "Bash(cd /c/Users/Prolls/Documents/nodejs/abap-adt-mcp-server && node -e \"const {allTools} = require\\('./build/lib/tools/index.js'\\); console.log\\('Total tools:', allTools.length\\); allTools.filter\\(t => t.name.startsWith\\('gcts_'\\)\\).forEach\\(t => console.log\\('-', t.name\\)\\);\" 2>&1)",
+      "Bash(cd /c/Users/Prolls/Documents/nodejs/abap-adt-mcp-server && node --input-type=module -e \"import {allTools} from './dist/src/lib/tools/index.js'; console.log\\('Total tools:', allTools.length\\); allTools.filter\\(t => t.name.startsWith\\('gcts_'\\)\\).forEach\\(t => console.log\\('-', t.name\\)\\);\" 2>&1)"
+    ]
+  }
+}
