@@ -1,0 +1,29 @@
+{
+  "name": "abap-adt-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server wrapping SAP ADT REST APIs for autonomous ABAP development (vibe coding)",
+  "type": "module",
+  "main": "dist/src/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/server.js",
+    "start:streamable": "node dist/src/streamable-http-server.js",
+    "dev": "tsc --watch",
+    "test": "npx vitest run"
+  },
+  "dependencies": {
+    "abap-adt-api": "^7.1.0",
+    "@modelcontextprotocol/sdk": "^1.25.3",
+    "zod": "^3.23.8",
+    "dotenv": "^16.4.7",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^20.11.19",
+    "typescript": "^5.4.4",
+    "vitest": "^2.1.5"
+  }
+}
